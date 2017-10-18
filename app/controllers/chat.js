@@ -104,6 +104,7 @@ ChatController.getSub = function(req, res) {
  * @return {Object}        Response object
  */
 ChatController.add = function(req, res) {
+  req.assert('parent', 'Parent cannot be empty').notEmpty()
   req.assert('enc', 'Encoder cannot be empty').notEmpty()
   req.assert('dec', 'Decoder cannot be empty').notEmpty()
   error = req.validationErrors()
@@ -116,6 +117,7 @@ ChatController.add = function(req, res) {
     })
   } else {
     Chat.create({
+      category: mongoose.Types.ObjectId(req.body.parent),
       enc: req.body.enc,
       dec: req.body.dec
     })
