@@ -63,6 +63,41 @@ ChatController.getOne = function(req, res) {
 }
 
 /**
+ * Get chat by category
+ * @param  {Object}   req  Request object
+ * @param  {Object}   res  Response object
+ * @return {Object}        Response object
+ */
+ChatController.getSub = function(req, res) {
+  req.assert('parent', 'Parent ID cannot be empty').notEmpty()
+  error = req.validationErrors()
+
+  if(error) {
+    res.status(200).json({
+      success: false,
+      message: 'Validation error.',
+      data: {}
+    })
+  } else {
+    Chat.find({category: mongoose.Types.ObjectId(req.body.parent)})
+    .then(function(data) {
+      res.status(200).json({
+        success: true,
+        message: 'Get chat by category success.',
+        data: data
+      })
+    })
+    .catch(function(err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+        data: {}
+      })
+    })
+  }
+}
+
+/**
  * Add new corpus
  * @param  {Object}   req  Request object
  * @param  {Object}   res  Response object
