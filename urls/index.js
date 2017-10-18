@@ -5,7 +5,8 @@
 let url = {};
 
 url = Object.assign(
-	require('./chat')
+	require('./chat'),
+	require('./category')
 )
 
 module.exports = url;
